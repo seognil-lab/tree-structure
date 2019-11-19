@@ -1,65 +1,65 @@
 {
-  "name": "tree-structure",
-  "version": "0.0.0",
-  "main": "src/index.js",
-  "description": "",
-  "license": "MIT",
-  "author": "seognil-lab",
-  "repository": "seognil-lab/tree-structure",
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
-  },
-  "keywords": [],
-  "bugs": "https://github.com/seognil-lab/tree-structure/issues",
-  "homepage": "https://github.com/seognil-lab/tree-structure",
-  "module": "src/index.js",
-  "scripts": {
-    "build": "npx rollup -c",
-    "build:watch": "npx rollup -c -w",
-    "test": "npm run build && jest",
-    "test:watch": "npm run build:watch > /dev/null | jest --watchAll",
-    "format": "eslint --fix . && prettier --write '{,!(node_modules|dist)/**/}*.*'",
-    "format:staged": "lint-staged && pretty-quick --staged"
-  },
-  "lint-staged": {
-    "*.js": "eslint --fix"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run format:staged",
-      "pre-push": "npm run format:staged"
-    }
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.4.4",
-    "@babel/core": "^7.4.5",
-    "@babel/node": "^7.4.5",
-    "@babel/preset-env": "^7.4.5",
-    "@babel/preset-typescript": "^7.3.3",
-    "@babel/register": "^7.4.4",
-    "babel-eslint": "^10.0.2",
-    "babel-jest": "^24.8.0",
-    "chai": "^4.2.0",
-    "del": "^4.1.1",
-    "eslint": "^6.0.1",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-config-prettier": "^6.0.0",
-    "eslint-plugin-babel": "^5.3.0",
-    "eslint-plugin-import": "^2.18.0",
-    "eslint-plugin-jest": "^22.7.1",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-mocha": "^5.3.0",
-    "eslint-plugin-react": "^7.14.2",
-    "husky": "^2.7.0",
-    "jest": "^24.8.0",
-    "lint-staged": "^8.2.1",
-    "mocha": "^6.1.4",
-    "np": "^5.0.3",
-    "prettier": "^1.18.2",
-    "pretty-quick": "^1.11.1",
-    "rollup": "^1.16.2",
-    "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-terser": "^5.0.0"
-  },
-  "dependencies": {}
+    "name": "tree-structure",
+    "version": "0.0.0",
+    "main": "src/index.js",
+    "description": "",
+    "license": "MIT",
+    "author": "seognil-lab",
+    "repository": "seognil-lab/tree-structure",
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org.prevent/"
+    },
+    "keywords": [],
+    "bugs": "https://github.com/seognil-lab/tree-structure/issues",
+    "homepage": "https://github.com/seognil-lab/tree-structure",
+    "module": "src/index.js",
+    "scripts": {
+        "build": "npx rollup -c",
+        "build:watch": "npx rollup -c -w",
+        "test": "npm run build && jest",
+        "test:watch": "npm run build:watch > /dev/null | jest --watchAll",
+        "format": "eslint --fix . && prettier --write '{,!(node_modules|dist)/**/}*.*'",
+        "format:staged": "lint-staged && pretty-quick --staged"
+    },
+    "lint-staged": {
+        "*.js": "eslint --fix"
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "npm run format:staged",
+            "pre-push": "npm run format:staged"
+        }
+    },
+    "devDependencies": {
+        "@babel/cli": "^7.4.4",
+        "@babel/core": "^7.4.5",
+        "@babel/node": "^7.4.5",
+        "@babel/preset-env": "^7.4.5",
+        "@babel/preset-typescript": "^7.3.3",
+        "@babel/register": "^7.4.4",
+        "babel-eslint": "^10.0.2",
+        "babel-jest": "^24.8.0",
+        "chai": "^4.2.0",
+        "del": "^4.1.1",
+        "eslint": "^6.0.1",
+        "eslint-config-airbnb": "^17.1.0",
+        "eslint-config-prettier": "^6.0.0",
+        "eslint-plugin-babel": "^5.3.0",
+        "eslint-plugin-import": "^2.18.0",
+        "eslint-plugin-jest": "^22.7.1",
+        "eslint-plugin-jsx-a11y": "^6.2.1",
+        "eslint-plugin-mocha": "^5.3.0",
+        "eslint-plugin-react": "^7.14.2",
+        "husky": "^2.7.0",
+        "jest": "^24.8.0",
+        "lint-staged": "^8.2.1",
+        "mocha": "^6.1.4",
+        "np": "^5.0.3",
+        "prettier": "^1.18.2",
+        "pretty-quick": "^1.11.1",
+        "rollup": "^1.16.2",
+        "rollup-plugin-babel": "^4.3.3",
+        "rollup-plugin-terser": "^5.0.0"
+    },
+    "dependencies": {}
 }
