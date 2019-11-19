@@ -1,17 +1,17 @@
 {
-  "name": "tree-structure",
+  "name": "lock-tree",
   "version": "0.0.0",
   "main": "src/index.js",
   "description": "",
   "license": "MIT",
   "author": "seognil-lab",
-  "repository": "seognil-lab/tree-structure",
+  "repository": "seognil-lab/lock-tree",
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org.prevent/"
   },
   "keywords": [],
-  "bugs": "https://github.com/seognil-lab/tree-structure/issues",
-  "homepage": "https://github.com/seognil-lab/tree-structure",
+  "bugs": "https://github.com/seognil-lab/lock-tree/issues",
+  "homepage": "https://github.com/seognil-lab/lock-tree",
   "module": "src/index.js",
   "scripts": {
     "build": "npx rollup -c",
@@ -19,7 +19,8 @@
     "test": "npm run build && jest",
     "test:watch": "npm run build:watch > /dev/null | jest --watchAll",
     "format": "eslint --fix . && prettier --write '{,!(node_modules|dist)/**/}*.*'",
-    "format:staged": "lint-staged && pretty-quick --staged"
+    "format:staged": "lint-staged && pretty-quick --staged",
+    "demo": "parcel example/index.html"
   },
   "lint-staged": {
     "*.js": "eslint --fix"
@@ -37,6 +38,9 @@
     "@babel/preset-env": "^7.4.5",
     "@babel/preset-typescript": "^7.3.3",
     "@babel/register": "^7.4.4",
+    "@types/react": "^16.9.11",
+    "@types/react-dom": "^16.9.4",
+    "@types/redux": "^3.6.0",
     "babel-eslint": "^10.0.2",
     "babel-jest": "^24.8.0",
     "chai": "^4.2.0",
@@ -59,7 +63,13 @@
     "pretty-quick": "^1.11.1",
     "rollup": "^1.16.2",
     "rollup-plugin-babel": "^4.3.3",
-    "rollup-plugin-terser": "^5.0.0"
+    "rollup-plugin-terser": "^5.0.0",
+    "typescript": "^3.7.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "redux": "^4.0.4",
+    "rxjs": "^6.5.3"
+  }
 }
