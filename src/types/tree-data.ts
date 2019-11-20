@@ -18,7 +18,12 @@ export type OverlayData = {
 
   title: string;
   pos?: CenterPosition;
-  detail?: any;
+  detail?: {
+    hidden?: boolean;
+    locked?: boolean;
+    collapsed?: boolean;
+    [attr: string]: any;
+  };
 };
 
 // * --------------------------------

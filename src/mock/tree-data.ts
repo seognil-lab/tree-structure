@@ -34,35 +34,45 @@ export const overlays: OverlayDataPool = {
     type: OverlayType.OVERLAY,
     title: 'item_A',
     pos: { center: [0, 0], size: [100, 100] },
-    detail: {},
+    detail: {
+      locked: true,
+    },
   },
   '05d02d': {
     id: '05d02d',
     type: OverlayType.GROUP,
     title: 'group2',
     pos: { center: [0, 0], size: [100, 100] },
-    detail: {},
+    detail: {
+      locked: true,
+    },
   },
   'df54e3': {
     id: 'df54e3',
     type: OverlayType.OVERLAY,
     title: 'item_B',
     pos: { center: [0, 0], size: [100, 100] },
-    detail: {},
+    detail: {
+      locked: true,
+    },
   },
   '6f0aab': {
     id: '6f0aab',
     type: OverlayType.OVERLAY,
     title: 'item_C',
     pos: { center: [0, 0], size: [100, 100] },
-    detail: {},
+    detail: {
+      hidden: true,
+    },
   },
   '7d18a4': {
     id: '7d18a4',
     type: OverlayType.GROUP,
     title: 'group3',
     pos: { center: [0, 0], size: [100, 100] },
-    detail: {},
+    detail: {
+      collapsed: true,
+    },
   },
   'f9e084': {
     id: 'f9e084',
@@ -80,7 +90,7 @@ export const overlays: OverlayDataPool = {
   },
   'ca86e9': {
     id: 'ca86e9',
-    type: OverlayType.OVERLAY,
+    type: OverlayType.GROUP,
     title: 'group4',
     pos: { center: [0, 0], size: [100, 100] },
     detail: {},

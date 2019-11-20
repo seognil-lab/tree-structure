@@ -15,6 +15,7 @@ export type EpubOverlayData = {
     [keys: string]: any;
   };
   iHidden?: boolean;
+  iLock?: boolean;
   suboverlays?: any[];
 };
 
@@ -47,6 +48,7 @@ export type EpubOverlayData = {
 //     iRows: '3',
 //     iCols: 3,
 //   },
-//   iVisibility: true,
+//   iHidden: true,
+//   iLock: true,
 //   suboverlays: [],
 // };
