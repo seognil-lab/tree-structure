@@ -18,12 +18,7 @@ export type OverlayData = {
 
   title: string;
   pos?: CenterPosition;
-  detail?: {
-    hidden?: boolean;
-    locked?: boolean;
-    collapsed?: boolean;
-    [attr: string]: any;
-  };
+  detail?: OverlayDetail;
 };
 
 // * --------------------------------
@@ -34,6 +29,13 @@ export enum OverlayType {
   'GROUP' = 'group',
   'OVERLAY' = 'overlay',
 }
+
+export type OverlayDetail = {
+  hidden?: boolean;
+  locked?: boolean;
+  collapsed?: boolean;
+  [attr: string]: any;
+};
 
 export type OverlayPosition = {
   center: Vector;

@@ -1,1 +1,1 @@
-export { default } from './components/lock-tree';
+export { TreeContainer } from './components/tree-root';

@@ -1,30 +1,38 @@
 import * as React from 'react';
-import { useContext } from 'react';
+import { connect } from 'react-redux';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFolderOpen, faFolder, faCircle, faSquare } from '@fortawesome/free-regular-svg-icons';
-import { faEye, faLock, faUnlock, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faCircle, faSquare, faStickyNote } from '@fortawesome/free-regular-svg-icons';
+import {
+  faEye,
+  faLock,
+  faUnlock,
+  faChevronDown,
+  faFolderOpen,
+  faFolder,
+  faCaretDown,
+} from '@fortawesome/free-solid-svg-icons';
 
-import { OverlayID, OverlayType } from '../types/tree-data';
-import { TreeContext } from './context';
+import { OverlayID, OverlayType, TreeData } from '../types/tree-data';
+import { TreeActionType, TreeStore } from '../types/tree-ops';
 
 // * ----------------------------------------------------------------
 
 const noop = e => {};
 
 const IconFactory = (className = [], icon?) => ({ onClick = noop }) => (
-  <span onClick={onClick} className={['treenode--icon', ...className].join(' ')}>
+  <span onClick={onClick} className={['tree-icon', ...className].join(' ')}>
     {icon && <FontAwesomeIcon icon={icon} />}
   </span>
 );
 
-const FaEmptyItem = IconFactory(['fii-type']);
 const FaFolderOpen = IconFactory(['fii-type', 'fii-folder-open'], faFolderOpen);
 const FaFolder = IconFactory(['fii-type', 'fii-folder'], faFolder);
-const FaItem = IconFactory(['fii-type', 'fii-item'], faCircle);
+const FaItem = IconFactory(['fii-type', 'fii-item'], faStickyNote);
 
-const FaDown = IconFactory(['fii-switcher', 'fii-folder-open'], faChevronDown);
-const FaRight = IconFactory(['fii-switcher', 'fii-folder-closed'], faChevronDown);
+// TODO merge Comp, class change only
+const FaDown = IconFactory(['fii-switcher'], faCaretDown);
+const FaRight = IconFactory(['fii-switcher', 'fii-collapsed'], faCaretDown);
 
 const FaShown = IconFactory(['fii-eye', 'fii-eye-shown'], faEye);
 const FaHidden = IconFactory(['fii-eye', 'fii-eye-hidden'], faSquare);
@@ -34,10 +42,11 @@ const FaUnlock = IconFactory(['fii-locker', 'fii-unlocked'], faUnlock);
 
 // * ----------------------------------------------------------------
 
-type TreeItem = React.FC<{ depth: number; id: OverlayID }>;
-export const TreeItem: TreeItem = ({ depth, id }) => {
-  const { tree } = useContext(TreeContext);
-  const currentNode = tree.overlays[id];
+type TreeProps = { depth: number; id: OverlayID };
+type TreeItemComp = React.FC<TreeProps & TreeData & TreeStore>;
+
+const TreeItemRaw: TreeItemComp = ({ id, depth, relations, overlays, dispatch }) => {
+  const currentNode = overlays[id];
   const {
     title,
     type,
@@ -47,35 +56,46 @@ export const TreeItem: TreeItem = ({ depth, id }) => {
   const isGroup = type === OverlayType.GROUP;
   const isShown = !hidden;
 
+  console.log(isGroup);
+
   // * --------------------------------
 
-  const Eye = isShown ? FaShown : FaHidden;
-  const Locker = locked ? FaLock : FaUnlock;
+  const CollapseIcon = collapsed ? FaRight : FaDown;
+  const TypeIcon = isGroup ? (collapsed ? FaFolder : FaFolderOpen) : FaItem;
+  const EyeIcon = isShown ? FaShown : FaHidden;
+  const LockerIcon = locked ? FaLock : FaUnlock;
 
   // * --------------------------------
 
   return (
-    <li className="treenode--item">
-      <Eye
-        onClick={e => {
-          console.warn('toggle eye');
-        }}
-      />
+    <li
+      className="tree-item"
+      onClick={() => {
+        console.log('click item');
+      }}
+    >
       <div
-        className="treenode--item-info"
+        className="tree-item-info"
         style={{
-          paddingLeft: depth * 12 + 'px',
+          paddingLeft: `${depth * 8}px`,
         }}
       >
-        {isGroup ? collapsed ? <FaRight /> : <FaDown /> : <FaEmptyItem />}
-        {isGroup ? collapsed ? <FaFolder /> : <FaFolderOpen /> : <FaItem />}
-        {type}: {title}, {id}
+        {isGroup && (
+          <CollapseIcon
+            onClick={() => dispatch({ type: TreeActionType.toggleCollapseSelected, payload: id })}
+          />
+        )}
+        <TypeIcon />
+        <span className="tree-item-title">{`${title} [${id}]`}</span>
       </div>
-      <Locker
-        onClick={e => {
-          console.warn('toggle locker');
-        }}
+      <EyeIcon
+        onClick={() => dispatch({ type: TreeActionType.toggleDisplaySelected, payload: id })}
+      />
+      <LockerIcon
+        onClick={() => dispatch({ type: TreeActionType.toggleLockSelected, payload: id })}
       />
     </li>
   );
 };
+
+export const TreeItem = connect(s => s)(TreeItemRaw);

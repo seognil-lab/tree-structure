@@ -1,21 +1,29 @@
 @size: 24px;
 
-@iconBlack: darken(white, 70);
-@iconDisableGray: darken(white, 20);
+@iconBlack: fade(black, 80%);
+@iconDisableGray: fade(black, 20%);
+@iconHiddenGray: fade(black, 0%);
 
-@innerBorderColor: darken(white, 30);
+@backgroundColor: fade(black, 5%);
+@itemActivedGray: fade(black, 15%);
 
-.devBorder(@color) {
-  box-shadow: 0px 0px 0px 1px @color;
+@innerBorderColor: fade(black, 30%);
+
+.rightBorder() {
+  box-shadow: inset -1px 0px 0px @innerBorderColor;
 }
 
-.actionable () {
+.devBorder(@color) {
+  // box-shadow: 0px 0px 0px 1px @color;
+}
+
+.cursorPointer () {
   cursor: pointer;
 }
 
 // * ------------------------------------------------
 
-.treenode--container {
+.tree-container {
   width: 100%;
   height: 100%;
 
@@ -23,59 +31,81 @@
 
   display: flex;
 
+  background-color: @backgroundColor;
+
   * {
     margin: 0;
     padding: 0;
   }
 
-  ul.treenode--folder {
-    overflow: hidden;
-    height: auto;
-
-    // padding-left: @size;
+  ul.tree-folder {
     padding-left: 0;
     list-style: none;
     flex-grow: 1;
 
-    // TODO collapse animation (with auto height)
-    // transition: max-height 0.3s ease-in-out;
-    // max-height: 600px;
+    overflow: hidden;
+
+    // * ----------------
+
+    height: auto;
 
     &.collapsed {
       height: 0;
-      // max-height: 0;
     }
+
+    // * ----------------
+
+    // TODO collapse animation (with auto height), dont know how yet
+    // transition: max-height 0.3s ease-in-out;
+    // max-height: 600px;
+
+    // &.collapsed {
+    //   max-height: 0;
+    // }
   }
 
-  .treenode--item {
+  .tree-item {
     // .devBorder(black);
+
+    margin-left: -0.125 * @size;
 
     height: @size;
     display: flex;
 
     border-bottom: 1px solid @innerBorderColor;
 
-    .actived {
-      // background:
+    &.actived {
+      background: @itemActivedGray;
     }
 
-    span.treenode--icon {
-      // .devBorder(red);
+    .tree-item-info {
+      display: flex;
+      flex-grow: 1;
+      line-height: @size;
+
+      .tree-item-title {
+        margin-left: 0.125 * @size;
+      }
+    }
+
+    span.tree-icon {
+      .devBorder(red);
 
       display: inline-block;
 
       width: @size;
       min-width: @size;
       height: @size;
+
       display: inline-flex;
       justify-content: center;
       align-items: center;
 
-      // box-shadow: 0px 0px 0px 1px black;
-
       // * ----------------
 
       @iconScale: scale(0.7);
+      @typeShrink: 0.425 * @size;
+      // @typeShrink: 0 * @size;
 
       & > * {
         transform: @iconScale;
@@ -84,8 +114,7 @@
       }
 
       &.fii-eye {
-        .actionable();
-        box-shadow: inset -1px 0px 0px @innerBorderColor;
+        .cursorPointer();
 
         &.fii-eye-shown > * {
           transform: scale(0.6);
@@ -97,44 +126,32 @@
       }
 
       &.fii-switcher {
-        .actionable();
+        .cursorPointer();
 
-        width: 0.75 * @size;
-        min-width: 0.75 * @size;
-
-        & > * {
-          // transform: scale(1);
-        }
-
-        // &.fii-folder-open > * {
-        // }
-
-        &.fii-folder-closed > * {
+        &.fii-collapsed > * {
           transform: @iconScale rotate(-90deg);
         }
       }
 
       &.fii-type {
-        width: 0.75 * @size;
-        min-width: 0.75 * @size;
+        margin-left: -@typeShrink;
+        pointer-events: none;
+
+        &.fii-item {
+          margin-left: -@typeShrink + @size;
+        }
       }
 
       &.fii-locker {
-        .actionable();
+        .cursorPointer();
 
         // &.fii-locked > * {
         // }
 
         &.fii-unlocked > * {
-          color: @iconDisableGray;
+          color: @iconHiddenGray;
         }
       }
-    }
-
-    .treenode--item-info {
-      display: flex;
-      flex-grow: 1;
-      line-height: @size;
     }
   }
 }
