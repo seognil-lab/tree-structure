@@ -1,4 +1,4 @@
-import { OverlayDataPool, OverlayType } from '../types/tree-data';
+import { OverlayModelPool, OverlayType } from '../types/overlay';
 
 /**
  *  root
@@ -21,7 +21,7 @@ export const relations = {
   'ca86e9': [],
 };
 
-export const overlays: OverlayDataPool = {
+export const overlays: OverlayModelPool = {
   '1fb7fb': {
     id: '1fb7fb',
     type: OverlayType.GROUP,

@@ -1,11 +1,26 @@
 import {
-  OverlayData,
+  OverlayModel,
   OverlayPosition,
   LeftTopPosition,
   CenterPosition,
   Vector,
-} from '../types/tree-data';
-import { CornerPoints } from '../types/bounding-rect';
+} from '../types/overlay';
+
+// * ================================================================================
+
+export type Point = [number, number];
+
+export type CornerPoints = [Point, Point, Point, Point];
+
+export type BoundingRect = {
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
+  size: Vector;
+};
+
+// * ================================================================================
 
 const leftToCenter = (pos: LeftTopPosition): CenterPosition => {
   const { left, top, width, height, rotate } = pos;
@@ -41,7 +56,12 @@ const getHorizonPoints = (pos: CenterPosition): CornerPoints => {
     size: [w, h],
   } = pos;
   const [l, r, t, b] = [x - w / 2, x + w / 2, y - h / 2, y + h / 2];
-  const points = [[l, t], [r, t], [r, b], [l, b]] as CornerPoints;
+  const points = [
+    [l, t],
+    [r, t],
+    [r, b],
+    [l, b],
+  ] as CornerPoints;
   return points;
 };
 
@@ -49,7 +69,7 @@ const getCornerPoints = (pos: CenterPosition) => {};
 
 const getItemBoundingRect = (pos: CenterPosition) => {};
 
-const groupBoundingRect = (overlays: OverlayData[]): OverlayPosition => {
+const groupBoundingRect = (overlays: OverlayModel[]): OverlayPosition => {
   const posList = overlays.map(e => e.pos).map(e => {});
 
   return;

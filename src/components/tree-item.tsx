@@ -1,101 +1,97 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircle, faSquare, faStickyNote } from '@fortawesome/free-regular-svg-icons';
+import { faSquare, faStickyNote } from '@fortawesome/free-regular-svg-icons';
 import {
+  faCaretDown,
   faEye,
+  faFolder,
+  faFolderOpen,
   faLock,
   faUnlock,
-  faChevronDown,
-  faFolderOpen,
-  faFolder,
-  faCaretDown,
 } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import * as React from 'react';
+import { connect } from 'react-redux';
+import { Dispatch } from 'redux';
+import { EditorActionType, OverlayActionType } from '../store/editor-store';
+import { OverlayType } from '../types/overlay';
+import { ConnectedTreeCellComp, TreeCellComp } from './comp-type';
 
-import { OverlayID, OverlayType, TreeData } from '../types/tree-data';
-import { TreeActionType, TreeStore } from '../types/tree-ops';
-
-// * ----------------------------------------------------------------
+// * ================================================================================ IconFactory
 
 const noop = e => {};
 
-const IconFactory = (className = [], icon?) => ({ onClick = noop }) => (
-  <span onClick={onClick} className={['tree-icon', ...className].join(' ')}>
+const IconFactory = (basicClass = [], icon) => ({ onClick = noop, statusClass = [] }) => (
+  <span onClick={onClick} className={['tree-icon', ...basicClass, ...statusClass].join(' ')}>
     {icon && <FontAwesomeIcon icon={icon} />}
   </span>
 );
 
-const FaFolderOpen = IconFactory(['fii-type', 'fii-folder-open'], faFolderOpen);
-const FaFolder = IconFactory(['fii-type', 'fii-folder'], faFolder);
-const FaItem = IconFactory(['fii-type', 'fii-item'], faStickyNote);
+const IconFolderOpen = IconFactory(['fii-type', 'fii-folder-open'], faFolderOpen);
+const IconFolder = IconFactory(['fii-type', 'fii-folder'], faFolder);
+const IconItem = IconFactory(['fii-type', 'fii-item'], faStickyNote);
 
 // TODO merge Comp, class change only
-const FaDown = IconFactory(['fii-switcher'], faCaretDown);
-const FaRight = IconFactory(['fii-switcher', 'fii-collapsed'], faCaretDown);
+const IconCollapse = IconFactory(['fii-switcher'], faCaretDown);
 
-const FaShown = IconFactory(['fii-eye', 'fii-eye-shown'], faEye);
-const FaHidden = IconFactory(['fii-eye', 'fii-eye-hidden'], faSquare);
+const IconShown = IconFactory(['fii-eye', 'fii-eye-shown'], faEye);
+const IconHidden = IconFactory(['fii-eye', 'fii-eye-hidden'], faSquare);
 
-const FaLock = IconFactory(['fii-locker', 'fii-locked'], faLock);
-const FaUnlock = IconFactory(['fii-locker', 'fii-unlocked'], faUnlock);
+const IconLock = IconFactory(['fii-locker', 'fii-locked'], faLock);
+const IconUnlock = IconFactory(['fii-locker', 'fii-unlocked'], faUnlock);
 
-// * ----------------------------------------------------------------
+// * ================================================================================ TreeItem
 
-type TreeProps = { depth: number; id: OverlayID };
-type TreeItemComp = React.FC<TreeProps & TreeData & TreeStore>;
+type EditorDispatch = Dispatch<{ type: OverlayActionType | EditorActionType }>;
 
-const TreeItemRaw: TreeItemComp = ({ id, depth, relations, overlays, dispatch }) => {
-  const currentNode = overlays[id];
+const TreeItem: TreeCellComp = props => {
+  const { currentPageOverlays, editorStatus, treeRenderState } = props;
+  const { relations, overlays } = currentPageOverlays;
+  const { selectedOverlays, copiedOverlays } = editorStatus;
+  const { id, depth, insertIndicator } = treeRenderState;
+
+  const dispatch = props.dispatch as EditorDispatch;
+
+  const currentOverlayData = overlays[id];
+
   const {
     title,
     type,
     detail: { collapsed, hidden, locked },
-  } = currentNode;
+  } = currentOverlayData;
 
   const isGroup = type === OverlayType.GROUP;
   const isShown = !hidden;
 
-  console.log(isGroup);
-
   // * --------------------------------
 
-  const CollapseIcon = collapsed ? FaRight : FaDown;
-  const TypeIcon = isGroup ? (collapsed ? FaFolder : FaFolderOpen) : FaItem;
-  const EyeIcon = isShown ? FaShown : FaHidden;
-  const LockerIcon = locked ? FaLock : FaUnlock;
+  const activeClass = selectedOverlays.includes(id) ? 'actived' : '';
+  const collapseClass = collapsed ? ['fii-collapsed'] : [];
+  const IconType = isGroup ? (collapsed ? IconFolder : IconFolderOpen) : IconItem;
+  const IconEye = isShown ? IconShown : IconHidden;
+  const IconLocker = locked ? IconLock : IconUnlock;
 
-  // * --------------------------------
+  // * ------------------------------------------------ render
 
   return (
     <li
-      className="tree-item"
-      onClick={() => {
-        console.log('click item');
-      }}
+      className={'tree-item ' + activeClass}
+      onClick={() => dispatch({ type: 'activeOverlays', payload: [id] })}
     >
-      <div
-        className="tree-item-info"
-        style={{
-          paddingLeft: `${depth * 8}px`,
-        }}
-      >
+      <div className="tree-item-info" style={{ paddingLeft: `${depth * 8}px` }}>
         {isGroup && (
-          <CollapseIcon
-            onClick={() => dispatch({ type: TreeActionType.toggleCollapseSelected, payload: id })}
+          <IconCollapse
+            statusClass={collapseClass}
+            onClick={() => dispatch({ type: 'toggleOverlaysCollapse', payload: id })}
           />
         )}
-        <TypeIcon />
+        <IconType />
         <span className="tree-item-title">{`${title} [${id}]`}</span>
       </div>
-      <EyeIcon
-        onClick={() => dispatch({ type: TreeActionType.toggleDisplaySelected, payload: id })}
-      />
-      <LockerIcon
-        onClick={() => dispatch({ type: TreeActionType.toggleLockSelected, payload: id })}
-      />
+      <IconEye onClick={() => dispatch({ type: 'toggleOverlaysDisplay', payload: id })} />
+      <IconLocker onClick={() => dispatch({ type: 'toggleOverlaysLock', payload: id })} />
     </li>
   );
 };
 
-export const TreeItem = connect(s => s)(TreeItemRaw);
+// * ================================================================================
+
+export const ConnectedTreeItem = connect(s => s)(TreeItem) as ConnectedTreeCellComp;

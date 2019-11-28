@@ -1,7 +1,7 @@
-import { EpubOverlayData } from '../types/epub-types';
-import { OverlayData, Vector } from '../types/tree-data';
+import { EpubOverlayModel } from '../types/epub-overlay';
+import { OverlayModel, Vector } from '../types/overlay';
 
-export const transferToV2 = (overlay: EpubOverlayData): OverlayData => {
+export const transferToV2 = (overlay: EpubOverlayModel): OverlayModel => {
   const {
     id,
     iType,
@@ -26,7 +26,7 @@ export const transferToV2 = (overlay: EpubOverlayData): OverlayData => {
   return newForm;
 };
 
-export const transferToLegacy = (overlay: OverlayData): EpubOverlayData => {
+export const transferToLegacy = (overlay: OverlayModel): EpubOverlayModel => {
   const {
     id,
     type: iType,

@@ -1,4 +1,4 @@
-export type EpubOverlayData = {
+export type EpubOverlayModel = {
   id: string;
   iType: string;
   iCommon: {

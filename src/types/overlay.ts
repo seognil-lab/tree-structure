@@ -1,6 +1,6 @@
-export type TreeData = {
+export type OverlayInfoPool = {
   relations: RelationPool;
-  overlays: OverlayDataPool;
+  overlays: OverlayModelPool;
 };
 
 export type RelationPool = {
@@ -8,11 +8,13 @@ export type RelationPool = {
   [groupId: string]: OverlayID[];
 };
 
-export type OverlayDataPool = {
-  [overlayId: string]: OverlayData;
+export type OverlayModelPool = {
+  [overlayId: string]: OverlayModel;
 };
 
-export type OverlayData = {
+// * --------------------------------
+
+export type OverlayModel = {
   id: OverlayID;
   type: OverlayType | string;
 

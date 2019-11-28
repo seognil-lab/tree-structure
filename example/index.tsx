@@ -1,16 +1,23 @@
+import { merge } from 'ramda';
 import * as React from 'react';
 import ReactDOM from 'react-dom';
-
+import { createStore } from 'redux';
 import { TreeContainer } from '../src/index';
 import { treeData } from '../src/mock/tree-data';
-
+import {
+  editorReducer,
+  EditorState,
+  EditorStore,
+  emptyEditorState,
+} from '../src/store/editor-store';
 import './app.less';
-import { createTreeStore } from '../src/operations/tree-redux';
-import { TreeActionType } from '../src/types/tree-ops';
 
-const treeStore = createTreeStore(treeData);
+const rootStore: EditorStore = createStore(
+  editorReducer,
+  merge(emptyEditorState, { currentPageOverlays: treeData }) as EditorState,
+);
 
-ReactDOM.render(<TreeContainer treeStore={treeStore} />, document.querySelector('#app'));
+ReactDOM.render(<TreeContainer rootStore={rootStore} />, document.querySelector('#app'));
 
 // setTimeout(() => {
 //   ReactDOM.render(<TreeContainer treeStore={treeStore} />, document.querySelector('#app'));
@@ -25,7 +32,7 @@ ReactDOM.render(<TreeContainer treeStore={treeStore} />, document.querySelector(
 // ReactDOM.render(
 //   <>
 //     <br />
-//     <TreeContainer treeStore={treeStore} />
+//     <TreeContainer globalStore={globalStore} />
 //   </>,
 //   document.body.appendChild(document.createElement('div')),
 // );
